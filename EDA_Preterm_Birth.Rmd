@@ -82,7 +82,6 @@ ggplot(participant_data, aes(x = age_factor)) +
   xlab("Age") + 
   ylab("Count") + 
   ggtitle("Age Participant Distribution")
-
 ```
 
 ### Age and Preterm Correlation Analysis
