@@ -5,10 +5,14 @@ date: "24/10/24"
 output: html_document
 ---
 
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message = FALSE)
+```
+
 ## Main objective of the script
 This section provides an overview of the analysis. The goal is to create a heatmap with a dendrogram of relative bacterial abundances grouped by metadata categories. The script will preprocess the data, filter it based on variance, and visualize the data using a heatmap with annotated categories like race and term status.
 
-```{r setup, include=FALSE}
+```{r}
 # Load necessary libraries
 library(pheatmap)
 library(dplyr)
@@ -34,7 +38,7 @@ rel_abun_etn <- metadata %>%
 
 ## Filter Top Bacteria by Variance and Calculate Relative Abundance Percentage
 This section filters the bacterial species based on their variance across the samples, selecting the most variable species for further analysis. The user can specify the percentage of variance explained they want to capture, and the code will automatically determine how many bacterial species are needed to reach that percentage. Additionally, the code calculates the percentage of total relative bacterial abundance represented by the selected species and outputs this information. This step is important for focusing the analysis on the most informative bacterial species.
-```{r cache=TRUE}
+```{r}
 # Step 1: Filter variables by variance
 bacteria_data <- rel_abun_etn[, 4:ncol(rel_abun_etn)]  # Bacteria data (columns 4 onward)
 metadata <- rel_abun_etn[, 1:3]  # Metadata (columns 1 to 3)
@@ -122,7 +126,8 @@ annotation_col_ordered <- annotation_col[ordered_indices, , drop=FALSE]
 ```
 
 ## Generate and Save Heatmap
-This section generates the heatmap using the filtered bacterial data and metadata annotations. The heatmap shows the relative abundances of the selected bacteria across all samples, with annotations for race and term status. The clustering method used ensures that both the bacterial species and the samples are clustered based on similarities. A conditional check is added to handle the number of bacteria. If fewer than 20 bacteria are selected after filtering by variance, their names will be displayed on the heatmap to make it easier to identify them. If there are more than 20 bacteria, the names are hidden to avoid overcrowding the plot and to maintain a cleaner visualization. The heatmap is saved as a high-resolution PNG file for easy sharing and publication. The main purpose of this visualization is to explore relationships between bacterial species and metadata categories in a visually intuitive manner.
+This section generates the heatmap using the filtered bacterial data and metadata annotations. The heatmap shows the relative abundances of the selected bacteria across all samples, with annotations for race and term status. The clustering method used ensures that both the bacterial species and the samples are clustered based on similarities. A conditional check is added to handle the number of bacteria. If fewer than 20 bacteria are selected after filtering by variance, their names will be displayed on the heatmap to make it easier to identify them. If there are more than 20 bacteria, the names are hidden to avoid overcrowding the plot and to maintain a cleaner visualization.
+The main purpose of this visualization is to explore relationships between bacterial species and metadata categories in a visually intuitive manner.
 ```{r fig.width=15, fig.height=10, dpi=300}
 # Step 7: Generate and save the heatmap with high quality and no scaling
 # If the number of selected bacteria is less than or equal to 20, show row names (bacterial names)
